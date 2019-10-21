@@ -7,7 +7,11 @@ except ImportError:
     import tkinter.ttk as ttk
     import tkinter.scrolledtext as ScrolledText
 import time
+from chatterbot.trainers import ChatterBotCorpusTrainer
 
+
+
+from os_sys import log
 
 class TkinterGUIExample(tk.Tk):
 
@@ -16,18 +20,25 @@ class TkinterGUIExample(tk.Tk):
         Create & set window variables.
         """
         tk.Tk.__init__(self, *args, **kwargs)
-
         self.chatbot = ChatBot(
             "GUI Bot",
             storage_adapter="chatterbot.storage.SQLStorageAdapter",
             logic_adapters=[
-                "chatterbot.logic.BestMatch"
+                "chatterbot.logic.BestMatch",
+                'chatterbot.logic.MathematicalEvaluation',
+                'chatterbot.logic.TimeLogicAdapter',
+                #'chatterbot.logic.LogicAdapter'
             ],
-            database_uri="sqlite:///database.sqlite3"
+            database_uri="sqlite:///database.sqlite3",
+            read_only=False,
+            logger=log.Logger('chatterbot',costum_format='[%Y-%m-%d %H:%M:%S] chatterbot')
         )
+        # Create a new trainer for the chatbot
+        trainer = ChatterBotCorpusTrainer(self.chatbot)
 
+        # Train the chatbot based on the english corpus
+        trainer.train("chatterbot.corpus.english")
         self.title("Chatterbot")
-
         self.initialize()
 
     def initialize(self):
@@ -54,12 +65,14 @@ class TkinterGUIExample(tk.Tk):
         """
         user_input = self.usr_input.get()
         self.usr_input.delete(0, tk.END)
-
+        if user_input == '':
+            user_input = 'NONE'
+            self.chatbot.logger.warning('no user input found making "NONE" the input')
         response = self.chatbot.get_response(user_input)
 
         self.conversation['state'] = 'normal'
         self.conversation.insert(
-            tk.END, "Human: " + user_input + "\n" + "ChatBot: " + str(response.text) + "\n"
+            tk.END, str("Human: " + user_input if user_input != 'NONE' else 'Human: ') + "\n" + "ChatBot: " + str(response.text) + "\n"
         )
         self.conversation['state'] = 'disabled'
 
