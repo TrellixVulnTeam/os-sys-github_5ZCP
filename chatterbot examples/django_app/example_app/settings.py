@@ -47,9 +47,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 MIDDLEWARE = [
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware']
+    'django.contrib.auth.middleware.AuthenticationMiddleware',]
 ROOT_URLCONF = 'example_app.urls'
 
 TEMPLATES = [
