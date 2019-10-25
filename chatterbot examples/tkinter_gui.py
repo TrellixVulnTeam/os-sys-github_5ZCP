@@ -1,4 +1,4 @@
-from chatterbot import ChatBot
+from chatterbot import ChatBot, default, indev
 import tkinter as tk
 try:
     import ttk as ttk
@@ -8,7 +8,7 @@ except ImportError:
     import tkinter.scrolledtext as ScrolledText
 import time
 from chatterbot.trainers import ChatterBotCorpusTrainer
-
+#print(default)
 
 
 from os_sys import log
@@ -30,8 +30,9 @@ class TkinterGUIExample(tk.Tk):
                 #'chatterbot.logic.LogicAdapter'
             ],
             database_uri="sqlite:///database.sqlite3",
+            #database_uri=default,
             read_only=False,
-            logger=log.Logger('chatterbot',costum_format='[%Y-%m-%d %H:%M:%S] chatterbot')
+            debug=True
         )
         # Create a new trainer for the chatbot
         trainer = ChatterBotCorpusTrainer(self.chatbot)
