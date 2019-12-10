@@ -7,8 +7,8 @@ from .chatterbot import ChatBot
 import os
 from distutils.sysconfig import get_python_lib as gpl
 path = gpl()
-default = os.path.join(path,'chatterbot','database.sqlite3')
-indev = '/database.sqlite3'
+default = 'sqlite://' + os.path.join(os.path.dirname(__file__),'database.sqlite3').replace('\\','/')
+indev = 'sqlite:///database.sqlite3'
 
 __all__ = (
     'ChatBot','default','indev'

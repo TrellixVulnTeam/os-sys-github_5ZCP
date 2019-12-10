@@ -220,7 +220,7 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
             install.run(self)
     setuptools.setup(
         name="os_sys",
-        version="2.0.7",#.dev moet dan hier
+        version="2.1.4",#.dev moet dan hier
         author="Matthijs labots",
         contact="python_libs",
         license='GNU General Public License',
@@ -229,7 +229,7 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
         description="a big lib with many usefull tools and it are not only os and sys tools...",
         long_description=long_description,
         long_description_content_type="text/markdown",
-        url="https://github.com/Matthijs990/os_sys-pypi/",
+        url="https://github.com/Matthijs990/os-sys-github/",
         python_requires='>=3',
         cmdclass={
             'develop': PostDevelopCommand,
@@ -261,6 +261,8 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
             'os_sys-setup = os_sys.commands:setup_os_sys1',
             'os_sys-py_install-install_local_files = os_sys.py_install:install_local_files',
             'os_sys-py_install-installer-auto-install = os_sys.py_install.commands:auto_install',
+            'os_sys = os_sys.__main__:main',
+            
             
             
             
@@ -268,8 +270,8 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
         include_package_data=True,
         py_modules = ['pywintypes', 'test_win32api', 'test_win32crypt', 'test_win32event', 'test_win32file', 'test_win32gui', 'test_win32guistruct', 'test_win32inet', 'test_win32net', 'test_win32pipe', 'test_win32rcparser', 'test_win32timezone', 'test_win32trace', 'test_win32wnet', 'win32clipboardDemo', 'win32clipboard_bitmapdemo', 'win32comport_demo', 'win32con', 'win32console_demo', 'win32cred_demo', 'win32cryptcon', 'win32gui_demo', 'win32gui_devicenotify', 'win32gui_dialog', 'win32gui_menu', 'win32gui_struct', 'win32gui_taskbar', 'win32inetcon', 'win32netcon', 'win32netdemo', 'win32pdhquery', 'win32pdhutil', 'win32rcparser', 'win32rcparser_demo', 'win32servicedemo', 'win32serviceutil', 'win32timezone', 'win32traceutil', 'win32ts_logoff_disconnected', 'win32verstamp', 'winerror', 'winioctlcon', 'winnetwk', 'winnt', 'winperf', 'winprocess', 'winxptheme','timer', 'win2kras', 'win32api', 'win32clipboard', 'win32console', 'win32cred', 'win32crypt', 'win32event', 'win32evtlog', 'win32file', 'win32gui', 'win32help', 'win32inet', 'win32job', 'win32lz', 'win32net', 'win32pdh', 'win32pipe', 'win32print', 'win32process', 'win32profile', 'win32ras', 'win32security', 'win32service', 'win32trace', 'win32transaction', 'win32ts', 'win32wnet', 'winxpgui',],
         package_data=package_data,             
-        packages=list(list(package_data) + ['os_sys', 'edit', 'chatterbot', 'server', 'mysite','pyspectator','pyspectator_tornado','chatterbot_corpus']),#list(package_data) + ['os_sys', 'edit', 'ins', 'server', 'mysite','pyspectator','pyspectator_tornado']
-        install_requires=['pygubu', 'pytz', 'sqlparse', 'progress', 'tqdm', 'progressbar', 'matplotlib', 'numpy',
+        packages=list(list(package_data) + ['bars','os_sys', 'edit', 'chatterbot', 'server', 'mysite','pyspectator','pyspectator_tornado','chatterbot_corpus']),#list(package_data) + ['os_sys', 'edit', 'ins', 'server', 'mysite','pyspectator','pyspectator_tornado']
+        install_requires=['pygubu', 'pytz', 'sqlparse', 'progress', 'tqdm', 'progressbar', 'matplotlib', 'numpy','six',
                           'jupyter', 'pandas', 'beautifulsoup4', "Eel", "extract-zip", "text-editor",
                           "tuspy", "requests-download", "requests", "Send2Trash",'tornado',
                           "pyspeedtest", "pytest", "wifi", "PyInstaller", "auto-py-to-exe",
@@ -336,16 +338,16 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
             'os_sys homepage': 'https://stranica.nl/os_sys/',
             'server documentation': 'https://www.stranica.nl/docs',
             'blog': 'https://stranica.nl/wordpress/wordpress/',
-            'all files': 'https://github.com/Matthijs990/os_sys-pypi',
+            'all files': 'https://github.com/Matthijs990/os-sys-github/',
             'Downloads': 'https://stranica.nl/downloads.html',
-            'download all files': 'https://github.com/Matthijs990/os_sys-pypi.git',
+            '.git': 'https://github.com/Matthijs990/os_sys-github.git',
             'want to help': 'https://github.com/Matthijs990/os_sys/tree/master/do%20you%20want%20to%20help',
             'startpage': 'https://pypi.org/project/os-sys/',
             'made possible by': 'https://pypi.org',
-            'help': 'https://github.com/Matthijs990/os_sys/issues',
-            'github wiki(under development)': 'https://github.com/Matthijs990/os_sys/wiki',
+            'help': 'https://github.com/Matthijs990/os-sys-github/issues',
+            'github wiki(under development)': 'https://github.com/Matthijs990/os-sys-github/wiki',
             'just a chat to talk about python': 'https://github.com/Matthijs990/chat/issues/1',
-            'github': 'https://github.com/Matthijs990/os_sys-pypi',
+            'github': 'https://github.com/Matthijs990/os-sys-github/',
             'os_sys online': 'https://stranica.nl/os_sys/',
             'gitlab': 'https://gitlab.com/Matthijs990/os_sys',
             'read the docs': 'https://os-sys-wiki-page.readthedocs.io/en/latest/index.html',

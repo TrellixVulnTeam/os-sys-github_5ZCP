@@ -1,11 +1,25 @@
-﻿new or updated:
+﻿update notes:
 ===========================
- 
-server(NEW!!, devserver/wsgi application, docs at stranica.nl/docs),
-devserver(a (now simple) devserver that you help devlop sites), 
-mail(mail messages and files with python),
-maths(a lib with math functions),
-py_install(updated)
+
+fixed:
+
+os_sys.log: get_logger function
+
+performance:
+
+fixed some performance issues
+
+
+
+working on:
+===========================
+
+bug fixing, making functions and classes faster and maybe adding threading support follow me on libaries.io for info about new releases
+
+
+
+
+
 
 
 
@@ -14,7 +28,8 @@ include:
 ===========================
 
     introduction
-                                                                                 
+
+    server                                                                     
     	
     description                                                                                                                                                                    
     	
@@ -29,6 +44,10 @@ introduction:
     to upgrade os_sys you type: pip install --upgrade os_sys                                                                                  
     so lets get start to install os_sys                                                                                  
 
+
+server:
+===========================
+you can read the server docs at https://www.stranica.nl/docs
                                                                                 
 
 discription:

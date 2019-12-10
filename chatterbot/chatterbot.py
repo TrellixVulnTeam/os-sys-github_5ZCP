@@ -9,6 +9,11 @@ except:
     from logic import LogicAdapter
     from search import TextSearch, IndexedTextSearch
     import utils
+from tkinter import Tk, simpledialog
+from os_sys import log
+Tk().withdraw()
+import os
+from chatterbot.trainers import ChatterBotCorpusTrainer
 class ChatBot(object):
     """
     A conversational dialog chat bot.
@@ -16,6 +21,8 @@ class ChatBot(object):
 
     def __init__(self, name, **kwargs):
         self.name = name
+        self.logger = kwargs.get('logger', log.Logger('chatterbot',costum_format='[%Y-%m-%d %H:%M:%S] chatterbot',debug=kwargs.get('debug',False)))
+        
 
         storage_adapter = kwargs.get('storage_adapter', 'chatterbot.storage.SQLStorageAdapter')
 
@@ -54,9 +61,11 @@ class ChatBot(object):
 
         for preprocessor in preprocessors:
             self.preprocessors.append(utils.import_module(preprocessor))
-
-        self.logger = kwargs.get('logger', logging.getLogger(__name__))
-
+        self.trainer = ChatterBotCorpusTrainer(self)
+        self.trainer.train("chatterbot.corpus.custom")
+        log.add_logger('chatterbot',self.logger)
+        self.this_file = os.path.dirname(__file__)
+        self.learn_YAML = os.path.join(''.join(os.path.split(self.this_file)[0]),'chatterbot_corpus','data','custom','myown.yml')
         # Allow the bot to save input it receives so that it can learn
         self.read_only = kwargs.get('read_only', False)
 
@@ -199,18 +208,39 @@ class ChatBot(object):
 
             if most_common.count > 1:
                 result = most_common.statement
-
-        response = Statement(
-            text=result.text,
-            in_response_to=input_statement.text,
-            conversation=input_statement.conversation,
-            persona='bot:' + self.name
-        )
+        if result.confidence > 0.8:
+            response = Statement(
+                text=result.text,
+                in_response_to=input_statement.text,
+                conversation=input_statement.conversation,
+                persona='bot:' + self.name
+            )
+        else:
+            response = Statement(
+                text='I was not shure so I asked you to tell me I think the answhere is:\n'+result.text,
+                in_response_to=input_statement.text,
+                conversation=input_statement.conversation,
+                persona='bot:' + self.name
+                )
+            ans = simpledialog.askstring("help", f"I am not shure about the answere can you tell me?\nthe question was:\n{input_statement.text}")
+            if ans != None:
+                self.learn(input_statement.text,ans)
 
         response.confidence = result.confidence
 
         return response
-
+    def learn(self,in_statement,ans):
+        with open(self.learn_YAML, 'a') as fh:
+            fh.write(f'- - {in_statement}\n##- {ans}\n'.replace('#', ' '))
+        import os
+        try:
+            os.mkdir(os.path.join(''.join(os.path.split(self.this_file)[0]),'chatterbot_corpus','data','temp'))
+        except:
+            pass
+        with open(os.path.join(''.join(os.path.split(self.this_file)[0]),'chatterbot_corpus','data','temp','temp.yml'),'w+') as fh:
+            fh.write(f'categories:\n- My Own\n- This is my own data\nconversations:\n- - {in_statement}\n##- {ans}\n'.replace('#', ' '))
+        self.trainer.train("chatterbot.corpus.temp")
+        
     def learn_response(self, statement, previous_statement=None):
         """
         Learn that the statement provided is a valid response.
